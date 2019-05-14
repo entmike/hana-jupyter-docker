@@ -27,6 +27,7 @@ Built on the shoulders of [Jupyter Docker Stacks](https://jupyter-docker-stacks.
 | `hdbcli Sample.ipynb` | Demonstrates using the `hdbcli` Python Library | [Based on Documentation on SAP Help](https://help.sap.com/viewer/0eec0d68141541d1b07893a39944924e/2.0.02/en-US/f3b8fabf34324302b123297cdbe710f0.html) |
 | `pyhdb Sample.ipynb` | Demonstrates using the `pyhdb` Python Library | https://github.com/SAP/PyHDB |
 | `NodeJS Kernel Sample.ipynb` | Demonstrates using `@sap/hana-client` npm module in `ijavascript` Kernel | [Based on Examples on Github](https://github.com/SAP/PyHDB#getting-started) |
+| `sqlalchemy Sample.ipynp` | Demonstrates using `sqlalchemy` SQL Magic on HANA DB | Credits to [@adadouche](https://github.com/adadouche) [document](https://developers.sap.com/tutorials/mlb-hxe-tools-jupyter.html) to produce sample |
 | `MatPlot Sample.ipynb` | Simple Reference MatPlot Example | [Chris Moffit article 'Simple Graphing with IPython and Pandas'](https://pbpython.com/simple-graphing-pandas.html) |
 | `MatPlot Sample2.ipynb` | Another Simple Reference MatPlot Example | [Chris Moffit article 'Simple Graphing with IPython and Pandas'](https://pbpython.com/simple-graphing-pandas.html) |
 
