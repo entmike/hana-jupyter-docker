@@ -46,3 +46,23 @@ docker run --rm --network YourDockerNetwork \
 -e JUPYTER_ENABLE_LAB=yes \ 
 entmike/hana-jupyter-notebook:latest
 ```
+## Docker Compose
+The following example will spin up both the Jupyter Notebook and also a HANA Express Edition Container.
+
+***Note*** Be sure to set the environment variable `HXE_MASTER_PASSWORD` before deploying.
+```
+version: '2'
+
+services:
+  jupyter:
+    image: entmike/hana-jupyter-notebook:latest
+    depends_on:
+      - hxehost
+      
+  hxehost:
+    image: store/saplabs/hanaexpress:2.00.036.00.20190223.1
+    hostname: hxe
+    volumes:
+      - hana-express:/hana/mounts
+    command: --agree-to-sap-license --master-password ${HXE_MASTER_PASSWORD}
+```
