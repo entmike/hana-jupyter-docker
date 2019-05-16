@@ -56,6 +56,8 @@ version: '2'
 services:
   jupyter:
     image: entmike/hana-jupyter-notebook:latest
+    ports:
+      - "10000:8888"
     depends_on:
       - hxehost
       
