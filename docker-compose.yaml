@@ -1,0 +1,20 @@
+version: '2'
+    
+services:
+  hxe:
+    image: store/saplabs/hanaexpress:2.00.036.00.20190223.1
+    hostname: hxe
+    volumes:
+      - hxedev:/hana/mounts
+  jupyter-notebook:
+    image: entmike/hana-jupyter-notebook
+    ports:
+      - 10000:8888
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - /appdata/notebooks:/home/jovyan/work
+volumes:
+  hxedev:
+    external:
+      name: hana-express

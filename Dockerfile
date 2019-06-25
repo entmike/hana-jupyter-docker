@@ -22,23 +22,13 @@ RUN pip install pyhdb && \
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
     jupyter labextension install jupyter-matplotlib
 
-# Copy over some sample notebooks
-COPY ./samples /home/jovyan/samples
 COPY ./hanaclient-2.4.126-linux-x64.tar.gz /setupfiles/hanaclient-2.4.126-linux-x64.tar.gz
 # Change ownership
 USER root
-RUN chown $NB_UID ./samples/*
 RUN chown -Rf $NB_UID /setupfiles
 
-# Temporarily add jessie backports to get openjdk 8, but then remove that source
 # Java 8 is a dependency of the Athena JDBC driver
-RUN echo 'deb http://cdn-fastly.deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list && \
-    apt-get -y update && \
-    apt-get install --no-install-recommends -t jessie-backports -y openjdk-8-jdk openjdk-8-jre-headless ca-certificates-java && \
-    rm /etc/apt/sources.list.d/jessie-backports.list && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* &&\
-    /usr/sbin/update-java-alternatives -s java-1.8.0-openjdk-amd64
+RUN apt-get -y update && apt-get install -y default-jdk
 
 USER $NB_USER
 
@@ -53,15 +43,16 @@ ENV LD_LIBRARY_PATH=/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server:/usr/
 COPY rjdbc.R /tmp
 RUN R -f /tmp/rjdbc.R
 
-COPY athena.R /tmp
-RUN R -f /tmp/athena.R
-
 USER $NB_UID
 # Add HANA Client Tool (2.4.126) and PIP package
-RUN mkdir ~/hdbinstaller && \
+RUN mkdir ~/hdbinstaller && mkdir ~/jars && \
     tar -xvzf /setupfiles/hanaclient-2.4.126-linux-x64.tar.gz -C $HOME/hdbinstaller && \
+    tar -xvzf $HOME/hdbinstaller/client/client/JDBC.TGZ -C $HOME/jars && \
     rm /setupfiles/hanaclient-2.4.126-linux-x64.tar.gz && \
     ~/hdbinstaller/client/hdbinst --path=$HOME/sap/hdbclient
 
 # Install hdbcli Python library
 RUN pip install file://$HOME/sap/hdbclient/hdbcli-2.4.126.tar.gz
+
+# Copy over some sample notebooks
+COPY ./samples /home/jovyan/samples
